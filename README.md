@@ -44,6 +44,10 @@ You don't need to install anything. The easiest way to use POD Playground is to 
 | `C<< ... >>` | `Complex Code` | `C<< $a->{b} >>` |
 | `L<...>` | [Links](https://metacpan.org) | `L<Label\|URL>` |
 
+## Author
+
+**Reginaldo Costa** | [@regcostajr](https://github.com/regcostajr)
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
