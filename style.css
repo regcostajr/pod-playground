@@ -1,0 +1,130 @@
+body { height: 100vh; overflow: hidden; }
+
+.editor-col { 
+    background: #2d2d2d; 
+    color: #ccc; 
+    border-right: 1px solid #444; 
+    padding: 0;
+}
+
+.preview-col { 
+    background: #fff; 
+    overflow-y: auto; 
+    height: 100vh; 
+    padding: 40px; 
+    font-family: 'Lato', 'Helvetica Neue', 'Helvetica', sans-serif;
+}
+
+textarea {
+    width: 100%; height: 100%; border: none; resize: none;
+    background: #2d2d2d; color: #f8f8f2; padding: 20px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    outline: none;
+}
+
+/* --- METACPAN STYLE OVERRIDES --- */
+
+.pod-content {
+    padding-top: 40px;
+    font-family: 'Lato', 'Helvetica Neue', 'Helvetica', sans-serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Lato', 'Helvetica Neue', 'Helvetica', sans-serif;
+    color: #333;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 10.5px;
+    line-height: 1.8em;
+}
+
+h1 { 
+    font-size: 1.5em;
+    padding-bottom: 0.3em; 
+}
+
+h2 { 
+    font-size: 1.3em; 
+    padding-bottom: 0.3em; 
+}
+
+h3 { 
+    font-size: 1.15em; 
+    margin-top: 1.5em;
+}
+
+h4 { 
+    font-size: 1em; 
+    font-weight: bold;
+}
+
+ul, ol { margin-bottom: 1rem; padding-left: 2em; }
+li { margin-bottom: 0.5em; }
+
+li p { 
+    display: block; 
+    margin-bottom: 0.5em; 
+    margin-top: 0.2em;
+}
+
+pre {
+    background-color: #f6f8fa;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 16px;
+    margin-bottom: 1.5rem;
+}
+
+code {
+    color: #c7254e;
+    background-color: #f9f2f4;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Bitstream Vera Sans Mono", "Courier New", monospace;
+}
+pre code { color: inherit; background-color: transparent; padding: 0; }
+
+a { color: #337ab7; text-decoration: none; }
+a:hover { text-decoration: underline; color: #23527c; }
+
+/* OVERRIDE HIGHLIGHT.JS BACKGROUND */
+pre code.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0;
+    background: transparent !important;
+}
+
+pre {
+    background-color: #f6f8fa;
+    border: 1px solid #ddd;
+}
+
+/* --- TOGGLE LOGIC --- */
+
+/* Hide the editor */
+#main-row.fullscreen-mode .editor-col {
+    width: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
+    flex: 0 0 0% !important; 
+}
+
+/* Expand the preview */
+#main-row.fullscreen-mode .preview-col {
+    width: 100% !important;
+    flex: 0 0 100% !important;
+}
+
+.pod-centering-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#toggle-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+}
