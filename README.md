@@ -42,7 +42,7 @@ You don't need to install anything. The easiest way to use POD Playground is to 
 | `I<...>` | *Italic* | `I<Text>` |
 | `C<...>` | `Code` | `C<$var>` |
 | `C<< ... >>` | `Complex Code` | `C<< $a->{b} >>` |
-| `L<...>` | [Links](https://metacpan.org) | `L<Label|URL>` |
+| `L<...>` | [Links](https://metacpan.org) | `L<Label\|URL>` |
 
 ## License
 
