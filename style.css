@@ -10,9 +10,10 @@ body { height: 100vh; overflow: hidden; }
 .preview-col { 
     background: #fff; 
     overflow-y: auto; 
-    height: 100vh; 
-    padding: 40px; 
+    height: 100%;
+    padding: 40px 40px 0 40px;
     font-family: 'Lato', 'Helvetica Neue', 'Helvetica', sans-serif;
+    position: relative;
 }
 
 textarea {
@@ -25,8 +26,11 @@ textarea {
 /* --- METACPAN STYLE OVERRIDES --- */
 
 .pod-content {
+    padding-bottom: 120px;
     padding-top: 40px;
     font-family: 'Lato', 'Helvetica Neue', 'Helvetica', sans-serif;
+    color: #333;
+    line-height: 1.6;
 }
 
 h1, h2, h3, h4 {
