@@ -17,6 +17,7 @@ You don't need to install anything. The easiest way to use POD Playground is to 
 ## Features
 
 * **Live Preview:** See changes instantly as you type.
+* **Mixed Perl/POD Support:** You can paste full `.pm` files containing Perl code. The parser automatically ignores the code and renders only the documentation between `=head` and `=cut`.
 * **MetaCPAN-Inspired Styling:** Uses custom CSS to mimic the general typography, colors, and layout of MetaCPAN to help you visualize the final output.
 * **Client-Side Parsing:** Custom JavaScript parser (no backend Perl required).
 

@@ -2,6 +2,13 @@ const PodParser = {
     parse: function (text) {
         if (!text) return "";
         text = text.replace(/\r\n/g, "\n");
+
+        // --- PRE-PROCESS PERL CODE ---
+        if (text.match(/^=[a-zA-Z]/m)) {
+            text = this.extractPodFromCode(text);
+        }
+
+        // --- PARSE BLOCKS ---
         const blocks = text.split(/\n\n+/);
 
         let html = "";
@@ -15,7 +22,7 @@ const PodParser = {
             let cleanBlock = block.trim();
             if (!cleanBlock) return;
 
-            // Check indentation using the raw block
+            // Check indentation using raw block
             const isVerbatimBlock = block.match(/^\s/);
 
             // --- COMMANDS ---
@@ -71,11 +78,26 @@ const PodParser = {
                 }
 
                 switch (command) {
-                    case "=head1": html += `<h1>${this.formatInline(rawContent)}</h1>`; break;
-                    case "=head2": html += `<h2>${this.formatInline(rawContent)}</h2>`; break;
-                    case "=head3": html += `<h3>${this.formatInline(rawContent)}</h3>`; break;
-                    case "=head4": html += `<h4>${this.formatInline(rawContent)}</h4>`; break;
-                    case "=cut": break;
+                    case "=head1":
+                        html += `<h1>${this.formatInline(rawContent)}</h1>`;
+                        break;
+
+                    // --- Pod::Weaver Support ---
+                    case "=head2":
+                    case "=method": // Maps to h2
+                    case "=attr":   // Maps to h2
+                    case "=func":   // Maps to h2
+                        html += `<h2>${this.formatInline(rawContent)}</h2>`;
+                        break;
+
+                    case "=head3":
+                        html += `<h3>${this.formatInline(rawContent)}</h3>`;
+                        break;
+                    case "=head4":
+                        html += `<h4>${this.formatInline(rawContent)}</h4>`;
+                        break;
+                    case "=cut":
+                        break;
                 }
             }
 
@@ -115,21 +137,43 @@ const PodParser = {
         return html;
     },
 
+    extractPodFromCode: function (text) {
+        const lines = text.split('\n');
+        const buffer = [];
+        let inPodMode = false;
+
+        lines.forEach(line => {
+            if (line.match(/^=[a-zA-Z]/)) {
+                if (line.startsWith('=cut')) {
+                    inPodMode = false;
+                    buffer.push("");
+                    return;
+                } else {
+                    inPodMode = true;
+                }
+            }
+            if (inPodMode) {
+                buffer.push(line);
+            } else {
+                buffer.push("");
+            }
+        });
+
+        return buffer.join('\n');
+    },
+
     formatInline: function (text) {
         if (!text) return "";
-
         const placeholders = [];
         // Double angle brackets C<< ... >>
         text = text.replace(/C<<\s+(.*?)\s+>>/g, (match, codeContent) => {
             placeholders.push(codeContent);
             return `__POD_DBL_CODE_${placeholders.length - 1}__`;
         });
-
         let html = this.escapeHtml(text);
 
         // Standard tags
         const regex = /([BCIFEL])&lt;((?:(?!&lt;|&gt;).)*)&gt;/g;
-
         let matchFound = true;
         while (matchFound) {
             matchFound = false;
@@ -138,7 +182,7 @@ const PodParser = {
                 switch (code) {
                     case 'B': return `<strong>${content}</strong>`;
                     case 'I': return `<em>${content}</em>`;
-                    case 'C': return `<code class="language-perl">${content}</code>`; // Added class here
+                    case 'C': return `<code class="language-perl">${content}</code>`;
                     case 'F': return `<em>${content}</em>`;
                     case 'E': return this.parseEntity(content);
                     case 'L': return this.parseLink(content);
@@ -152,7 +196,6 @@ const PodParser = {
             // Added class here as well
             return `<code class="language-perl">${this.escapeHtml(placeholders[index])}</code>`;
         });
-
         return html;
     },
 
